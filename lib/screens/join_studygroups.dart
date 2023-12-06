@@ -52,6 +52,18 @@ class _JoinStudyGroupsScreenState extends State<JoinStudyGroupsScreen> {
       final DocumentSnapshot groupDoc = groupSnapshot.docs.first;
       final groupId = groupDoc.id;
 
+      // Add the user to the group's 'members' subcollection
+      await _firestore
+          .collection('groups')
+          .doc(groupId)
+          .collection('members')
+          .doc(user.uid)
+          .set({
+        'email': user.email, // Use the user's email as their identifier
+        'points': 0, // Initialize their points to 0
+      });
+
+      // Also add the group reference to the user's 'groups' subcollection
       await _firestore
           .collection('Users')
           .doc(user.uid)

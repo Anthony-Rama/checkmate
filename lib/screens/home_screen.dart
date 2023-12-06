@@ -81,7 +81,11 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               Text(
                 'Your Study Groups',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white // Setting text color to white
+                    ),
               ),
               SizedBox(height: 16),
               Expanded(

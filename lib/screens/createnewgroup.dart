@@ -41,9 +41,13 @@ class _CreateNewGroupScreenState extends State<CreateNewGroupScreen> {
           await FirebaseFirestore.instance.collection('groups').add({
         'name': groupName,
         'key': groupKey,
-        'createdBy': user
-            .uid, // Optionally store the ID of the user who created the group
-        // Add other group details as necessary
+        'createdBy': user.uid, // Store the ID of the user who created the group
+      });
+
+      // Initialize the 'members' subcollection with the group creator
+      await newGroupRef.collection('members').doc(user.uid).set({
+        'email': user.email, // Assuming user.email is not null
+        'points': 0,
       });
 
       // Add a reference to the new group in the user's 'groups' subcollection
@@ -51,7 +55,7 @@ class _CreateNewGroupScreenState extends State<CreateNewGroupScreen> {
           .collection('Users')
           .doc(user.uid)
           .collection('groups')
-          .doc(newGroupRef.id) // Use the new group's ID as the document ID
+          .doc(newGroupRef.id)
           .set({
         'name': groupName,
         'key': groupKey,
@@ -89,31 +93,26 @@ class _CreateNewGroupScreenState extends State<CreateNewGroupScreen> {
               },
             ),
             SizedBox(height: 16),
-            // Image picker for group picture
             if (_groupImage != null) Image.file(File(_groupImage!.path)),
             ElevatedButton(
               onPressed: _pickImage,
               child: Text('Pick Group Image'),
             ),
             SizedBox(height: 16),
-            // Display the generated group key
             Text(
               'Your Group Key: $groupKey',
               style: TextStyle(fontSize: 20),
             ),
             SizedBox(height: 16),
-            // Button to create group
             ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  // Save the group data to Firestore
                   _createGroupInFirestore(_groupName, groupKey).then((_) {
-                    // Show a SnackBar after popping the screen
-                    Navigator.of(context).pop(); // Pop first
+                    Navigator.of(context).pop();
                   }).catchError((error) {
-                    Navigator.of(context).pop(); // Pop first
-                    // The actual SnackBar is shown by the previous screen that this screen returns to.
+                    Navigator.of(context).pop();
+                    // Handle the error here if necessary
                   });
                 }
               },

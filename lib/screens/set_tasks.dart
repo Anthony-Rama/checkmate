@@ -22,6 +22,7 @@ class _SetTasksScreenState extends State<SetTasksScreen> {
         .collection('groups')
         .doc(widget.groupId)
         .collection('tasks')
+        .orderBy('createdAt', descending: false) // Order by creation time
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) => Task.fromFirestore(doc.data() as Map<String, dynamic>,

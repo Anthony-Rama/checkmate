@@ -51,18 +51,19 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
       });
     }
 
-    // Fetch user emails or names based on their UIDs
+    // Fetch user usernames based on their UIDs
     Map<String, String> userNames = {};
     for (String userId in userPoints.keys) {
       var userDoc = await _firestore.collection('users').doc(userId).get();
-      // Use 'email' or another field where you store user names
-      userNames[userId] = userDoc.data()?['email'] ?? 'Unknown';
+      // Use 'username' field where you store user names
+      userNames[userId] = userDoc.data()?['username'] ?? 'Unknown';
     }
 
     // Map of user names to points
     Map<String, int> userNamePoints = {};
     userPoints.forEach((userId, points) {
-      String name = userNames[userId] ?? userId; // Fallback to UID if needed
+      String name = userNames[userId] ??
+          'Unknown'; // Use username or fallback to 'Unknown'
       userNamePoints[name] = points;
     });
 
@@ -92,7 +93,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
             itemBuilder: (context, index) {
               var entry = sortedEntries[index];
               return ListTile(
-                title: Text(entry.key), // Now this is the user's email or name
+                title: Text(entry.key),
                 trailing: Text('${entry.value} Points'),
               );
             },

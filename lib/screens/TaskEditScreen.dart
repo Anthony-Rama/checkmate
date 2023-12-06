@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:checkmate/database/task.dart';
 
 class TaskEditScreen extends StatefulWidget {
   final String groupId;
-  final Task? task;
+  final String? taskId; // Use taskId to identify the task being edited
 
-  TaskEditScreen({Key? key, required this.groupId, this.task})
+  TaskEditScreen({Key? key, required this.groupId, this.taskId})
       : super(key: key);
 
   @override
@@ -17,36 +16,29 @@ class _TaskEditScreenState extends State<TaskEditScreen> {
   final TextEditingController _descriptionController = TextEditingController();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  @override
-  void initState() {
-    super.initState();
-    if (widget.task != null) {
-      _descriptionController.text = widget.task!.description;
-    }
-  }
+  // Rest of your code...
 
   Future<void> _saveTask() async {
-    if (_descriptionController.text.isEmpty) return;
+    String taskDescription = _descriptionController.text.trim();
+    if (taskDescription.isEmpty) return;
 
-    if (widget.task == null) {
-      // Add new task
-      await _firestore
-          .collection('groups')
-          .doc(widget.groupId)
-          .collection('tasks')
-          .add({
-        'description': _descriptionController.text,
+    CollectionReference tasksRef =
+        _firestore.collection('groups').doc(widget.groupId).collection('tasks');
+
+    if (widget.taskId == null) {
+      // Add new task with current timestamp
+      await tasksRef.add({
+        'description': taskDescription,
+        'createdAt': FieldValue.serverTimestamp(), // Adding creation timestamp
         'points': 10,
         'completedBy': {},
       });
     } else {
       // Update existing task
-      await _firestore
-          .collection('groups')
-          .doc(widget.groupId)
-          .collection('tasks')
-          .doc(widget.task!.id)
-          .update({'description': _descriptionController.text});
+      await tasksRef.doc(widget.taskId).update({
+        'description': taskDescription,
+        'updatedAt': FieldValue.serverTimestamp(), // Updating timestamp
+      });
     }
 
     Navigator.pop(context);
@@ -56,13 +48,13 @@ class _TaskEditScreenState extends State<TaskEditScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Task'),
+        title: Text(widget.taskId == null ? 'Create Task' : 'Edit Task'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: TextField(
           controller: _descriptionController,
-          decoration: InputDecoration(labelText: 'Task Description'),
+          decoration: InputDecoration(labelText: 'Task Name'),
         ),
       ),
       floatingActionButton: FloatingActionButton(
