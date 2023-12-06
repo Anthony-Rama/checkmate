@@ -30,7 +30,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         .get();
 
     for (var member in membersSnapshot.docs) {
-      String userId = member.id; // Assuming the document ID is the user ID
+      String userId = member.id;
       userPoints[userId] = 0; // Start with 0 points
     }
 

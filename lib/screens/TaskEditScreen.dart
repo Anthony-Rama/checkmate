@@ -16,8 +16,6 @@ class _TaskEditScreenState extends State<TaskEditScreen> {
   final TextEditingController _descriptionController = TextEditingController();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Rest of your code...
-
   Future<void> _saveTask() async {
     String taskDescription = _descriptionController.text.trim();
     if (taskDescription.isEmpty) return;
@@ -26,10 +24,9 @@ class _TaskEditScreenState extends State<TaskEditScreen> {
         _firestore.collection('groups').doc(widget.groupId).collection('tasks');
 
     if (widget.taskId == null) {
-      // Add new task with current timestamp
       await tasksRef.add({
         'description': taskDescription,
-        'createdAt': FieldValue.serverTimestamp(), // Adding creation timestamp
+        'createdAt': FieldValue.serverTimestamp(),
         'points': 10,
         'completedBy': {},
       });
@@ -37,7 +34,7 @@ class _TaskEditScreenState extends State<TaskEditScreen> {
       // Update existing task
       await tasksRef.doc(widget.taskId).update({
         'description': taskDescription,
-        'updatedAt': FieldValue.serverTimestamp(), // Updating timestamp
+        'updatedAt': FieldValue.serverTimestamp(),
       });
     }
 

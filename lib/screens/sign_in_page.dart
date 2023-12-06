@@ -19,11 +19,9 @@ class _SignInPageState extends State<SignInPage> {
         password: _passwordController.text,
       );
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => const MyHomePage(
-              title: 'CheckMate Home'))); // Navigate to home screen
+          builder: (_) => const MyHomePage(title: 'CheckMate Home')));
     } on FirebaseAuthException catch (e) {
-      // Handle error
-      print(e); // Consider showing a user-friendly error message
+      print(e);
     }
   }
 
@@ -55,7 +53,7 @@ class _SignInPageState extends State<SignInPage> {
               onPressed: _signIn,
               child: Text('Sign In'),
             ),
-            SizedBox(height: 20), // Spacing between buttons
+            SizedBox(height: 20),
             TextButton(
               onPressed: _navigateToCreateAccount,
               child: Text('Create an Account'),

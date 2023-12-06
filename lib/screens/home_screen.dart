@@ -84,8 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white // Setting text color to white
-                    ),
+                    color: Colors.white),
               ),
               SizedBox(height: 16),
               Expanded(

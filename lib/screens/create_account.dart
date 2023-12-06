@@ -29,7 +29,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       await FirebaseFirestore.instance.collection('users').doc(userId).set({
         'email': _emailController.text,
         'username': _usernameController.text, // Store the username
-        // Add other initial user data as needed
       });
 
       // Navigate to the home page
@@ -37,7 +36,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
           builder: (_) => MyHomePage(title: 'CheckMate Home')));
     } on FirebaseAuthException catch (e) {
       // Handle error (e.g., show an error message)
-      print(e.message); // Consider displaying this in a user-friendly way
+      print(e.message);
     }
   }
 
@@ -61,7 +60,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               obscureText: true,
             ),
             TextFormField(
-              controller: _usernameController, // Add TextField for username
+              controller: _usernameController,
               decoration: InputDecoration(labelText: 'Username'),
             ),
             ElevatedButton(

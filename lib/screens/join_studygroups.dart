@@ -78,7 +78,7 @@ class _JoinStudyGroupsScreenState extends State<JoinStudyGroupsScreen> {
         SnackBar(content: Text('Successfully joined the group.')),
       );
 
-      widget.onGroupJoined(); // Call the callback function
+      widget.onGroupJoined();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error joining group: $e')),

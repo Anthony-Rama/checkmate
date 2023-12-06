@@ -40,7 +40,6 @@ class MyApp extends StatelessWidget {
               onGroupJoined: () {},
             ),
         '/createNewGroup': (context) => CreateNewGroupScreen(),
-        // Add other routes as needed
       },
     );
   }

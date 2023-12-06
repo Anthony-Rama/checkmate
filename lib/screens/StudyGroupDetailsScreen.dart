@@ -17,9 +17,8 @@ class StudyGroupDetailsScreen extends StatelessWidget {
         title: Text('Group Details'),
       ),
       body: Center(
-        // Use Center to ensure content is centered on the screen
         child: Column(
-          mainAxisSize: MainAxisSize.min, // Use MainAxisSize.min for the Column
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
@@ -33,7 +32,7 @@ class StudyGroupDetailsScreen extends StatelessWidget {
               },
               child: Text('View Tasks'),
             ),
-            SizedBox(height: 20), // Spacing between buttons
+            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(

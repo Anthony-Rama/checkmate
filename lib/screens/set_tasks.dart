@@ -41,9 +41,6 @@ class _SetTasksScreenState extends State<SetTasksScreen> {
           .update({
         'completedBy.${user.uid}': completed,
       });
-
-      // Optionally update user points here
-      // ...
     }
   }
 

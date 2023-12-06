@@ -46,7 +46,7 @@ class _CreateNewGroupScreenState extends State<CreateNewGroupScreen> {
 
       // Initialize the 'members' subcollection with the group creator
       await newGroupRef.collection('members').doc(user.uid).set({
-        'email': user.email, // Assuming user.email is not null
+        'email': user.email,
         'points': 0,
       });
 
@@ -112,7 +112,6 @@ class _CreateNewGroupScreenState extends State<CreateNewGroupScreen> {
                     Navigator.of(context).pop();
                   }).catchError((error) {
                     Navigator.of(context).pop();
-                    // Handle the error here if necessary
                   });
                 }
               },
